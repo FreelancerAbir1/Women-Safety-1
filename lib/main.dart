@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
         ),
         
         debugShowCheckedModeBanner: false,
-        title: 'Women Safety App',
+        title: 'Women Safety App version 1.0.0',
         home: const PlatformCheck(
           website: WebsitePlatform(),
           android: AndroidPlatform(),
