@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
         ),
         
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Women Safety App',
         home: const PlatformCheck(
           website: WebsitePlatform(),
           android: AndroidPlatform(),
