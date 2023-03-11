@@ -15,7 +15,7 @@ class CompleteForm extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: kTextLightColor,
       ),
-      body:   Body(email: email,password: password,),
+      body:   SafeArea(child: Body(email: email,password: password,)),
     );
   }
 }

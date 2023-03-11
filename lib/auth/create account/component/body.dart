@@ -81,7 +81,7 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      var width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
     return LayoutBuilder(builder: (context, constraints) {
       return SizedBox(
         width: width,
@@ -142,13 +142,16 @@ class Body extends StatelessWidget {
                       }
                     },
                     onRelaod: true,
-                  )
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                 ],
               ),
             ),
-          ),),
-        );
-      }
-    );
+          ),
+        ),
+      );
+    });
   }
 }

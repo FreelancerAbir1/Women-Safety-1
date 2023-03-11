@@ -1,22 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:women_safety_1/screen/platform/platform_check.dart';
 import 'package:women_safety_1/screen/platform/website/website.dart';
+import 'firebase_options.dart';
 import 'screen/platform/android/android.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: 'AIzaSyC4pGn2qzWQYneg5tRT74HmWUBFjiDV3fk',
-      appId: '1:617369470412:web:285e15a03e8e64069b8969',
-      messagingSenderId: '617369470412',
-      projectId: 'women-safety-1-a45e7',
-      authDomain: 'women-safety-1-a45e7.firebaseapp.com',
-      storageBucket: 'women-safety-1-a45e7.appspot.com',
-      measurementId: 'G-KPXWHF24B9',
-    ),
+    options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
     const MyApp(),
@@ -25,14 +18,46 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  static const MaterialColor themeBlack = MaterialColor(
+    _themeBlackPrimaryValue,
+    <int, Color>{
+      50: Color(_themeBlackPrimaryValue),
+      100: Color(_themeBlackPrimaryValue),
+      200: Color(_themeBlackPrimaryValue),
+      300: Color(_themeBlackPrimaryValue),
+      400: Color(_themeBlackPrimaryValue),
+      500: Color(_themeBlackPrimaryValue),
+      600: Color(_themeBlackPrimaryValue),
+      700: Color(_themeBlackPrimaryValue),
+      800: Color(_themeBlackPrimaryValue),
+      900: Color(_themeBlackPrimaryValue),
+    },
+  );
+  static const int _themeBlackPrimaryValue = 0xFF222222;
+  static const Color themeTextPrimary = Color(0xFF9D9D9D);
 
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(builder: (context, orientation, screenType) {
-      return const MaterialApp(
+      return MaterialApp(
+        theme: ThemeData(
+          primarySwatch: themeBlack,
+          textTheme: Theme.of(context).textTheme.apply(
+                bodyColor: themeBlack,
+              ),
+          primaryTextTheme: Theme.of(context).textTheme.apply(
+                bodyColor: themeTextPrimary,
+              ),
+          primaryIconTheme: const IconThemeData(
+            color: themeTextPrimary,
+          ),
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        home: PlatformCheck(
+        home: const PlatformCheck(
+          website: WebsitePlatform(),
           android: AndroidPlatform(),
           windows: WebsitePlatform(),
         ),

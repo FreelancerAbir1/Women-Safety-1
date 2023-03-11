@@ -3,6 +3,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:women_safety_1/auth/create%20account/create_account.dart';
@@ -41,9 +42,10 @@ class _BodyState extends State<Body> {
     password.dispose();
     super.dispose();
   }
+  
 
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     return LayoutBuilder(builder: (context, constraints) {
       return SizedBox(
@@ -51,7 +53,7 @@ class _BodyState extends State<Body> {
         child: Padding(
           padding: constraints.maxWidth > 480
               ? EdgeInsets.symmetric(horizontal: 30.w)
-              : const EdgeInsets.all(0),
+              : const EdgeInsets.all(5),
           child: Form(
             key: formKey,
             child: SingleChildScrollView(
@@ -129,9 +131,11 @@ class _BodyState extends State<Body> {
                   CreateUserButton(
                     text: 'Create New User',
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const CreateAccount(),
-                      ));
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const CreateAccount(),
+                        ),
+                      );
                     },
                   ),
                 ],

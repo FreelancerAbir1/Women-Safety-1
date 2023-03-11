@@ -11,6 +11,13 @@ const kDefaultFontBold = TextStyle(fontWeight: FontWeight.bold);
 const kDefaultFontNormal = TextStyle(fontWeight: FontWeight.normal);
 const kDefaultPadding = 21.0;
 
+  OutlineInputBorder buildOulineInputBorder() {
+    return OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.blue),
+      borderRadius: BorderRadius.circular(10.0),
+    );
+  }
+
 Orientation orientation = Orientation.landscape;
 //! userProfile stream fetch
 final userProfileCollection = FirebaseFirestore.instance

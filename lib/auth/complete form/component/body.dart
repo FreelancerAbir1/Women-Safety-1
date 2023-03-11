@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
- import 'package:women_safety_1/screen/my%20home%20page/home_page.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:women_safety_1/screen/my%20home%20page/home_page.dart';
 import '../../../constant.dart';
 import 'custom_btn.dart';
 import 'form_field.dart';
@@ -58,125 +59,131 @@ class _BodyState extends State<Body> {
   final _key = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(kDefaultPadding),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
+    var width = MediaQuery.of(context).size.width;
+    return LayoutBuilder(builder: (context, constraints) {
+      return SizedBox(
+        width: width,
+        child: Padding(
+          padding: constraints.maxWidth > 480
+              ? EdgeInsets.symmetric(horizontal: 30.w)
+              : const EdgeInsets.all(5),
           child: Form(
             key: _key,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: kDefaultPadding),
-                const SubmitText(text: 'Submit the form to continue'),
-                const SizedBox(height: kDefaultPadding),
-                const InformationText(
-                    text: 'We will not share information with anyone.'),
-                const SizedBox(height: kDefaultPadding),
-                CustomFormField(
-                  textInputAction: TextInputAction.next,
-                  focusNode: fullNameNode,
-                  onFieldSubmitted: (value) {
-                    FocusScope.of(context).requestFocus(numberNode);
-                  },
-                  controller: name,
-                  suffix: const Text(''),
-                  hintText: 'Full Name',
-                  onChange: (p0) {},
-                  validate: validateName,
-                ),
-                const SizedBox(height: kDefaultPadding),
-                CustomFormField(
-                  textInputAction: TextInputAction.next,
-                  focusNode: numberNode,
-                  onFieldSubmitted: (value) {
-                    FocusScope.of(context).requestFocus(dateNode);
-                  },
-                  controller: phone,
-                  suffix: const Text(''),
-                  hintText: 'Phone Number',
-                  onChange: (p0) {},
-                  validate: validateMobile,
-                ),
-                const SizedBox(height: kDefaultPadding),
-                pickDateTime(context),
-                const SizedBox(height: kDefaultPadding),
-                CustomFormField(
-                  textInputAction: TextInputAction.next,
-                  focusNode: genderNode,
-                  onFieldSubmitted: (value) {
-                    FocusScope.of(context).requestFocus(ageNode);
-                  },
-                  controller: genders,
-                  suffix: DropdownButton(
-                    hint: const Text('Choose'),
-                    value: items,
-                    items: item
-                        .map(
-                          (e) => DropdownMenuItem(
-                            value: e,
-                            child: Text(e),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        items = value as String?;
-                      });
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: kDefaultPadding),
+                  const SubmitText(text: 'Submit the form to continue'),
+                  const SizedBox(height: kDefaultPadding),
+                  const InformationText(
+                      text: 'We will not share information with anyone.'),
+                  const SizedBox(height: kDefaultPadding),
+                  CustomFormField(
+                    textInputAction: TextInputAction.next,
+                    focusNode: fullNameNode,
+                    onFieldSubmitted: (value) {
+                      FocusScope.of(context).requestFocus(numberNode);
+                    },
+                    controller: name,
+                    suffix: const Text(''),
+                    hintText: 'Full Name',
+                    onChange: (p0) {},
+                    validate: validateName,
+                  ),
+                  const SizedBox(height: kDefaultPadding),
+                  CustomFormField(
+                    textInputAction: TextInputAction.next,
+                    focusNode: numberNode,
+                    onFieldSubmitted: (value) {
+                      FocusScope.of(context).requestFocus(dateNode);
+                    },
+                    controller: phone,
+                    suffix: const Text(''),
+                    hintText: 'Phone Number',
+                    onChange: (p0) {},
+                    validate: validateMobile,
+                  ),
+                  const SizedBox(height: kDefaultPadding),
+                  pickDateTime(context),
+                  const SizedBox(height: kDefaultPadding),
+                  CustomFormField(
+                    textInputAction: TextInputAction.next,
+                    focusNode: genderNode,
+                    onFieldSubmitted: (value) {
+                      FocusScope.of(context).requestFocus(ageNode);
+                    },
+                    controller: genders,
+                    suffix: DropdownButton(
+                      hint: const Text('Choose'),
+                      value: items,
+                      items: item
+                          .map(
+                            (e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(e),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          items = value as String?;
+                        });
+                      },
+                    ),
+                    hintText: items == null ? 'Gender' : items.toString(),
+                    onChange: (p0) {},
+                    validate: (value) {
+                      return null;
                     },
                   ),
-                  hintText: items == null ? 'Gender' : items.toString(),
-                  onChange: (p0) {},
-                  validate: (value) {
-                    return null;
-                  },
-                ),
-                const SizedBox(height: kDefaultPadding),
-                CustomFormField(
-                  textInputAction: TextInputAction.next,
-                  focusNode: ageNode,
-                  onFieldSubmitted: (value) {
-                    FocusScope.of(context).unfocus();
-                    if (_key.currentState!.validate()) {
-                      sendProfileDataToDb();
-                    } else {
-                      setState(() {
-                        onReload = true;
-                      });
-                    }
-                  },
-                  controller: age,
-                  suffix: const Text(''),
-                  hintText: 'Age',
-                  onChange: (p0) {},
-                  validate: (value) {
-                    if (value!.length >= 3 || value.length <= 1) {
-                      return 'Valid age';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: kDefaultPadding + kDefaultPadding),
-                CustomButton(
-                  text: 'Submit',
-                  onPress: () {
-                    if (_key.currentState!.validate()) {
-                      sendProfileDataToDb();
-                    } else {
-                      setState(() {
-                        onReload = true;
-                      });
-                    }
-                  },
-                  onRelaod: onReload,
-                ),
-              ],
+                  const SizedBox(height: kDefaultPadding),
+                  CustomFormField(
+                    textInputAction: TextInputAction.next,
+                    focusNode: ageNode,
+                    onFieldSubmitted: (value) {
+                      FocusScope.of(context).unfocus();
+                      if (_key.currentState!.validate()) {
+                        sendProfileDataToDb();
+                      } else {
+                        setState(() {
+                          onReload = true;
+                        });
+                      }
+                    },
+                    controller: age,
+                    suffix: const Text(''),
+                    hintText: 'Age',
+                    onChange: (p0) {},
+                    validate: (value) {
+                      if (value!.length >= 3 || value.length <= 1) {
+                        return 'Valid age';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: kDefaultPadding + kDefaultPadding),
+                  CustomButton(
+                    text: 'Submit',
+                    onPress: () {
+                      if (_key.currentState!.validate()) {
+                        sendProfileDataToDb();
+                      } else {
+                        setState(() {
+                          onReload = true;
+                        });
+                      }
+                    },
+                    onRelaod: onReload,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   DateTimePicker pickDateTime(BuildContext context) {
@@ -227,10 +234,9 @@ class _BodyState extends State<Body> {
         'gender': items,
         'age': age.text,
       }).then((value) {
-        
         flutterToast(text: 'User details add successfully');
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) =>   const MyHomePage(),
+          builder: (context) => const MyHomePage(),
         ));
         widget.email.clear();
         widget.password.clear();
