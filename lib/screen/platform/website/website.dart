@@ -9,6 +9,6 @@ class WebsitePlatform extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // return const AdminSideScreen();
-    return   const AddProduct();
+    return   const LoginAdmin();
   }
 }
